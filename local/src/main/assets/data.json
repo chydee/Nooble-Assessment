@@ -1,0 +1,105 @@
+{
+  "shorts":[
+    {
+      "shortID":"1",
+      "title":"Title 1",
+      "dateCreated":"2021-Nov-03",
+      "audioPath":"https://filesamples.com/samples/audio/m4a/sample4.m4a",
+      "creator":{
+        "userID":"1",
+        "email":"abc@gmail.com"
+      }
+    },
+    {
+      "shortID":"2",
+      "title":"Title 2",
+      "dateCreated":"2021-Nov-04",
+      "audioPath":"https://filesamples.com/samples/audio/m4a/sample3.m4a",
+      "creator":{
+        "userID":"1",
+        "email":"abc@gmail.com"
+      }
+    },
+    {
+      "shortID":"3",
+      "title":"Title 3",
+      "dateCreated":"2021-Nov-04",
+      "audioPath":"https://filesamples.com/samples/audio/m4a/sample1.m4a",
+      "creator":{
+        "userID":"2",
+        "email":"abc2@gmail.com"
+      }
+    },
+    {
+      "shortID":"4",
+      "title":"Title 4",
+      "dateCreated":"2021-Nov-04",
+      "audioPath":"https://filesamples.com/samples/audio/m4a/sample2.m4a",
+      "creator":{
+        "userID":"2",
+        "email":"abc2@gmail.com"
+      }
+    },
+    {
+      "shortID":"5",
+      "title":"Title 5",
+      "dateCreated":"2021-Nov-05",
+      "audioPath":"https://download.samplelib.com/mp3/sample-3s.mp3",
+      "creator":{
+        "userID":"3",
+        "email":"abc3@gmail.com"
+      }
+    },
+    {
+      "shortID":"6",
+      "title":"Title 6",
+      "dateCreated":"2021-Nov-06",
+      "audioPath":"https://download.samplelib.com/mp3/sample-6s.mp3",
+      "creator":{
+        "userID":"1",
+        "email":"abc@gmail.com"
+      }
+    },
+    {
+      "shortID":"7",
+      "title":"Title 7",
+      "dateCreated":"2021-Nov-08",
+      "audioPath":"https://download.samplelib.com/mp3/sample-9s.mp3",
+      "creator":{
+        "userID":"2",
+        "email":"abc2@gmail.com"
+      }
+    },
+    {
+      "shortID":"8",
+      "title":"Title 8",
+      "dateCreated":"2021-Nov-08",
+      "audioPath":"https://download.samplelib.com/mp3/sample-12s.mp3",
+      "creator":{
+        "userID":"2",
+        "email":"abc2@gmail.com"
+      }
+    },
+    {
+      "shortID":"9",
+      "title":"Title 9",
+      "dateCreated":"2021-Nov-09",
+      "audioPath":"https://download.samplelib.com/mp3/sample-15s.mp3",
+      "creator":{
+        "userID":"5",
+        "email":"abc5@gmail.com"
+      }
+    },
+    {
+      "shortID":"10",
+      "title":"Title 10",
+      "dateCreated":"2021-Nov-09",
+      "audioPath":"https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+      "creator":{
+        "userID":"5",
+        "email":"abc5@gmail.com"
+      }
+    }
+
+  ]
+}
