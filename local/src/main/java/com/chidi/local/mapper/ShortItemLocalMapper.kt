@@ -4,10 +4,6 @@ import com.chidi.data.model.ShortItemData
 import com.chidi.local.model.ShortLocal
 import javax.inject.Inject
 
-/**
- * Created by SegunFrancis
- */
-
 class ShortItemLocalMapper @Inject constructor() : Mapper<ShortLocal, ShortItemData> {
     override fun mapLocalToData(data: ShortLocal): ShortItemData {
         return with(data) {

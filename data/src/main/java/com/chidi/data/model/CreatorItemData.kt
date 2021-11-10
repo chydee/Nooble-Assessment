@@ -1,6 +1,6 @@
 package com.chidi.data.model
 
-data class ShortCreatorData(
+data class CreatorItemData(
     val email: String,
     val userID: String
 )

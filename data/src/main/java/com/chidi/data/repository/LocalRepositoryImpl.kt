@@ -17,9 +17,9 @@ class LocalRepositoryImpl @Inject constructor(
         return dataSourceFactory.local().getData().map { item -> itemMapper.mapDataToDomain(item) }
     }
 
-    override fun addShorts(short: ShortItemDomain): Completable {
+    override fun addShorts(shortItemDomain: ShortItemDomain): Completable {
         return dataSourceFactory.local()
-            .addShorts(itemMapper.mapDomainToData(short))
+            .addShorts(itemMapper.mapDomainToData(shortItemDomain))
     }
 
     override fun getAllShorts(): Single<List<ShortItemDomain>> {

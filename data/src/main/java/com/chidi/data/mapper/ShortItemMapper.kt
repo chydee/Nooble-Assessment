@@ -4,16 +4,12 @@ import com.chidi.data.model.ShortItemData
 import com.desmondngwuta.domain.model.ShortItemDomain
 import javax.inject.Inject
 
-/**
- * Created by SegunFrancis
- */
-
 class ShortItemMapper @Inject constructor() : Mapper<ShortItemData, ShortItemDomain> {
     override fun mapDataToDomain(data: ShortItemData): ShortItemDomain {
         return with(data) {
             ShortItemDomain(
                 audioPath,
-                shortCreatorData,
+                creatorDomain = CreatorItemMapper().mapDataToDomain(creatorItemData!!),
                 dateCreated,
                 shortID,
                 title,
@@ -25,7 +21,7 @@ class ShortItemMapper @Inject constructor() : Mapper<ShortItemData, ShortItemDom
         return with(data) {
             ShortItemData(
                 audioPath,
-                shortCreatorDomain,
+                creatorItemData = CreatorItemMapper().mapDomainToData(creatorDomain),
                 dateCreated,
                 shortID,
                 title,

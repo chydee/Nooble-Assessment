@@ -8,9 +8,6 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
-/**
- * Created by SegunFrancis
- */
 
 class LocalDataSourceImpl @Inject constructor(
     private val mapper: ShortItemLocalMapper,
@@ -22,8 +19,8 @@ class LocalDataSourceImpl @Inject constructor(
         return businessLogic().map { item -> mapper.mapLocalToData(item) }
     }
 
-    override fun addShorts(short: ShortItemData): Completable {
-        return database.dao().addShort(mapper.mapDataToLocal(short))
+    override fun addShorts(shortItemData: ShortItemData): Completable {
+        return database.dao().addShort(mapper.mapDataToLocal(shortItemData))
     }
 
     override fun getAllShorts(): Single<List<ShortItemData>> {
