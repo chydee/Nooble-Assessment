@@ -1,8 +1,7 @@
 package com.chidi.data.mapper
 
-import com.chidi.data.model.ShortCreatorData
 import com.chidi.data.model.ShortItemData
-import com.desmondngwuta.domain.ShortItemDomain
+import com.desmondngwuta.domain.model.ShortItemDomain
 import javax.inject.Inject
 
 /**
