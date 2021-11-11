@@ -86,6 +86,7 @@ class ShortViewFragment : Fragment() {
             }
             isPlaying = !isPlaying
         }
+
     }
 
     fun onItemClicked(item: Short) {
