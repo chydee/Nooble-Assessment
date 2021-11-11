@@ -2,6 +2,7 @@ package com.chidi.nooble.ui.short
 
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.chidi.nooble.App
+import com.chidi.nooble.R
 import com.chidi.nooble.databinding.FragmentShortViewBinding
 import com.chidi.nooble.model.Short
 import com.chidi.nooble.ui.model.MainViewModel
@@ -22,6 +24,7 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+
 
 class ShortViewFragment : Fragment() {
 
@@ -63,9 +66,7 @@ class ShortViewFragment : Fragment() {
             windowInsets.consumeSystemWindowInsets()
         }
         shortDataModel = arguments?.getParcelable(AppConstants.KEY_SHORT_DATA)
-        // shortDataModel?.let { onItemClicked(it) }
         initData()
-
     }
 
     private fun initData() {
@@ -89,7 +90,7 @@ class ShortViewFragment : Fragment() {
 
     }
 
-    fun onItemClicked(item: Short) {
+    private fun onPlaybackEnded(item: Short) {
         viewModel.selectItem(item)
     }
 
@@ -100,7 +101,7 @@ class ShortViewFragment : Fragment() {
                 Log.d(ShortViewFragment::class.java.simpleName, "Player.STATE_ENDED")
                 binding?.shortPlayingAnimView?.pauseAnimation()
                 shortDataModel?.let {
-                    onItemClicked(it)
+                    onPlaybackEnded(it)
                 }
                 return
             }
@@ -130,6 +131,22 @@ class ShortViewFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun showWhenPauseOrPlay() {
+        Handler().postDelayed(Runnable {
+            if (isPlaying) {
+                binding?.apply {
+                    onPausePlayIndicator.visibility = View.VISIBLE
+                    onPausePlayIndicator.setImageResource(R.drawable.pause)
+                }
+            } else {
+                binding?.apply {
+                    onPausePlayIndicator.visibility = View.VISIBLE
+                    onPausePlayIndicator.setImageResource(R.drawable.play)
+                }
+            }
+        }, 1000)
     }
 
     private fun preparePlayer() {

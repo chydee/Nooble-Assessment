@@ -16,6 +16,7 @@ import com.chidi.nooble.model.Short
 import com.chidi.nooble.ui.ShortItemsAdapter
 import com.chidi.nooble.ui.model.MainViewModel
 import com.chidi.nooble.utils.AppConstants
+import com.chidi.nooble.utils.DepthPageTransformer
 import com.chidi.nooble.utils.Result.Error
 import com.chidi.nooble.utils.Result.Success
 import com.chidi.nooble.work.PreCachingWorker
@@ -87,7 +88,10 @@ class MainActivity : AppCompatActivity() {
         shorts = data
         saveShortToDB(data)
         pagerAdapter = ShortItemsAdapter(this, data as MutableList<Short>)
-        binding?.mainViewPager?.adapter = pagerAdapter
+        binding?.mainViewPager?.apply {
+            adapter = pagerAdapter
+            setPageTransformer(DepthPageTransformer())
+        }
         startPreCaching(data as ArrayList<Short>)
         Log.d("MainActivity", data.toString())
     }
