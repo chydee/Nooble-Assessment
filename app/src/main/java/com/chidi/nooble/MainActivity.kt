@@ -30,7 +30,9 @@ class MainActivity : AppCompatActivity() {
 
     private var binding: ActivityMainBinding? = null
 
-    private var shorts: List<Short>? = null
+    private var shorts: List<Short> = listOf()
+
+    private var currentPlaying: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         setupContentWindow()
         changeStatusBarColor(Color.TRANSPARENT)
         setupObservers()
+
+
     }
 
     private fun setupObservers() {
@@ -48,6 +52,21 @@ class MainActivity : AppCompatActivity() {
                 is Error -> handleError(result.error)
             }
         }
+
+        viewModel.selectedItem.observe(this, { item ->
+            if (item != null) {
+                currentPlaying = if (currentPlaying == shorts.size) {
+                    0
+                } else {
+                    shorts.indexOf(item)
+                }
+                Log.d("MainActivity", "current page is: $currentPlaying")
+                currentPlaying++
+                Log.d("MainActivity", "next page is: $currentPlaying")
+                binding?.mainViewPager?.setCurrentItem(currentPlaying, true)
+            }
+        })
+
     }
 
     private fun handleError(error: Throwable) {
@@ -92,7 +111,7 @@ class MainActivity : AppCompatActivity() {
             .enqueue(preCachingWork)
     }
 
-    /*override fun onShortEnded(shortItem: Short) {
-        shorts?.indexOf(shortItem)?.let { binding?.mainViewPager?.setCurrentItem(it, true) }
-    }*/
+/*override fun onShortEnded(shortItem: Short) {
+    shorts?.indexOf(shortItem)?.let { binding?.mainViewPager?.setCurrentItem(it, true) }
+}*/
 }

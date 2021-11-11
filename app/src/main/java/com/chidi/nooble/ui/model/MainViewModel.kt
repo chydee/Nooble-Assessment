@@ -1,5 +1,6 @@
 package com.chidi.nooble.ui.model
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chidi.nooble.mapper.ShortItemMapper
@@ -45,6 +46,13 @@ class MainViewModel @Inject constructor(
                 _shortList.postValue(Result.Error(it))
             }
         ).let { disposeBag.add(it) }
+    }
+
+    private val mutableSelectedItem = MutableLiveData<Short>()
+    val selectedItem: LiveData<Short> get() = mutableSelectedItem
+
+    fun selectItem(item: Short) {
+        mutableSelectedItem.value = item
     }
 
     private val _shortMessage = MutableLiveData<Event<Message>>()

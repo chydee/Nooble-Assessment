@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.chidi.nooble.App
 import com.chidi.nooble.databinding.FragmentShortViewBinding
 import com.chidi.nooble.model.Short
+import com.chidi.nooble.ui.model.MainViewModel
 import com.chidi.nooble.utils.AppConstants
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.Player
@@ -20,7 +22,6 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-
 
 class ShortViewFragment : Fragment() {
 
@@ -34,6 +35,7 @@ class ShortViewFragment : Fragment() {
     private val simpleCache = App.simpleCache
     private var toPlayShortPosition: Int = -1
 
+
     companion object {
         fun newInstance(shortItem: Short) = ShortViewFragment()
             .apply {
@@ -45,16 +47,7 @@ class ShortViewFragment : Fragment() {
 
     private var binding: FragmentShortViewBinding? = null
 
-    /* */
-    /**
-     * Interface for communicating data
-     *
-     *//*
-    interface OnShortStatusChangeListener {
-        fun onShortEnded(shortItem: Short)
-    }
-
-    private var listener: OnShortStatusChangeListener? = null*/
+    private val viewModel: MainViewModel by activityViewModels()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -69,9 +62,10 @@ class ShortViewFragment : Fragment() {
             v.updatePadding(top = windowInsets.systemWindowInsetTop)
             windowInsets.consumeSystemWindowInsets()
         }
-
         shortDataModel = arguments?.getParcelable(AppConstants.KEY_SHORT_DATA)
+        // shortDataModel?.let { onItemClicked(it) }
         initData()
+
     }
 
     private fun initData() {
@@ -94,14 +88,24 @@ class ShortViewFragment : Fragment() {
         }
     }
 
-    private val playerCallback: Player.EventListener? = object : Player.EventListener {
+    fun onItemClicked(item: Short) {
+        viewModel.selectItem(item)
+    }
+
+    private val playerCallback: Player.EventListener = object : Player.EventListener {
         override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
             Log.d(ShortViewFragment::class.java.simpleName, "onPlayerStateChanged playbackState: $playbackState")
             if (playbackState == Player.STATE_ENDED) {
-                //shortDataModel?.let { listener?.onShortEnded( it) }
+                Log.d(ShortViewFragment::class.java.simpleName, "Player.STATE_ENDED")
+                binding?.shortPlayingAnimView?.pauseAnimation()
+                shortDataModel?.let {
+                    onItemClicked(it)
+                }
+                return
             }
             if (playbackState == Player.STATE_READY) {
                 binding?.shortPlayingAnimView?.resumeAnimation()
+                return
             }
         }
 
@@ -154,7 +158,7 @@ class ShortViewFragment : Fragment() {
         val mediaSource = ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(uri)
 
         player?.prepare(mediaSource, true, true)
-        player?.repeatMode = Player.REPEAT_MODE_ONE
+        player?.repeatMode = Player.REPEAT_MODE_OFF
         player?.playWhenReady = true
         player?.addListener(playerCallback)
 

@@ -6,7 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.chidi.nooble.model.Short
 import com.chidi.nooble.ui.short.ShortViewFragment
 
-class ShortItemsAdapter(fragment: AppCompatActivity, private val shortItems: MutableList<Short> = mutableListOf()) : FragmentStateAdapter(fragment) {
+class ShortItemsAdapter(parent: AppCompatActivity, private val shortItems: MutableList<Short> = mutableListOf()) : FragmentStateAdapter(parent) {
     override fun getItemCount(): Int {
         return shortItems.size
     }
