@@ -1,6 +1,8 @@
 package com.chidi.data.mapper
 
+import com.chidi.data.model.CreatorItemData
 import com.chidi.data.model.ShortItemData
+import com.desmondngwuta.domain.model.CreatorDomain
 import com.desmondngwuta.domain.model.ShortItemDomain
 import javax.inject.Inject
 
@@ -9,7 +11,7 @@ class ShortItemMapper @Inject constructor() : Mapper<ShortItemData, ShortItemDom
         return with(data) {
             ShortItemDomain(
                 audioPath,
-                creatorDomain = null,
+                CreatorDomain(creatorItemData.email, creatorItemData.userID),
                 dateCreated,
                 shortID,
                 title,
@@ -21,7 +23,7 @@ class ShortItemMapper @Inject constructor() : Mapper<ShortItemData, ShortItemDom
         return with(data) {
             ShortItemData(
                 audioPath,
-                creatorItemData = null,
+                CreatorItemData(creatorDomain.email, creatorDomain.userID),
                 dateCreated,
                 shortID,
                 title,

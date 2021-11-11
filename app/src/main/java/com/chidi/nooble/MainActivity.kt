@@ -7,10 +7,11 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.chidi.nooble.databinding.ActivityMainBinding
 import com.chidi.nooble.model.Short
+import com.chidi.nooble.ui.ShortItemsAdapter
 import com.chidi.nooble.ui.model.MainViewModel
 import com.chidi.nooble.utils.Result.Error
 import com.chidi.nooble.utils.Result.Success
@@ -21,11 +22,16 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
+    private lateinit var pagerAdapter: ShortItemsAdapter
+
+    private var binding: ActivityMainBinding? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
         setupContentWindow()
-        changeStatusBarColor(R.color.primaryDarkColor)
+        changeStatusBarColor(Color.TRANSPARENT)
         setupObservers()
     }
 
@@ -48,6 +54,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleSuccess(data: List<Short>) {
+        pagerAdapter = ShortItemsAdapter(this, data as MutableList<Short>)
+        binding?.mainViewPager?.adapter = pagerAdapter
         Log.d("MainActivity", data.toString())
     }
 
@@ -58,9 +66,9 @@ class MainActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
     }
 
-    private fun changeStatusBarColor(@ColorRes barColor: Int) {
+    private fun changeStatusBarColor(barColor: Int) {
         window.apply {
-            statusBarColor = getColorFromRes(barColor)
+            statusBarColor = barColor
         }
     }
 

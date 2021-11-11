@@ -1,6 +1,8 @@
 package com.chidi.nooble.mapper
 
+import com.chidi.nooble.model.Creator
 import com.chidi.nooble.model.Short
+import com.desmondngwuta.domain.model.CreatorDomain
 import com.desmondngwuta.domain.model.ShortItemDomain
 import javax.inject.Inject
 
@@ -10,7 +12,7 @@ class ShortItemMapper @Inject constructor() : Mapper<ShortItemDomain, Short> {
         return with(data) {
             Short(
                 audioPath,
-                null,
+                Creator(creatorDomain.email, creatorDomain.userID),
                 dateCreated,
                 shortID,
                 title
@@ -22,7 +24,7 @@ class ShortItemMapper @Inject constructor() : Mapper<ShortItemDomain, Short> {
         return with(data) {
             ShortItemDomain(
                 audioPath,
-                null,
+                CreatorDomain(creator.email, creator.userID),
                 dateCreated,
                 shortID,
                 title

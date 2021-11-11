@@ -45,13 +45,13 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/shortPlayingAnimView"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
             android:layout_margin="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/shortDate"
-            app:lottie_autoPlay="false"
+            app:lottie_autoPlay="true"
             app:lottie_fileName="spectrum.json"
             app:lottie_loop="true"
             app:lottie_repeatMode="reverse" />

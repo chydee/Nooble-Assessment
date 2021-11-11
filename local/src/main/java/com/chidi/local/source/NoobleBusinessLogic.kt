@@ -22,10 +22,12 @@ class NoobleBusinessLogic @Inject constructor(private val context: Context) {
         val items = item.getJSONArray("shorts")
         val gson = Gson()
         for (i in 0 until items.length()) {
-            val obj = items.getJSONObject(i)
-            val innerObj = obj.getJSONObject("creator")
+            val obj = items.getJSONObject(i).also {
+                it.getJSONObject("creator")
+            }
+            /*val innerObj = obj.getJSONObject("creator")
             val creatorID = innerObj.getString("userID")
-            val creatorEmail = innerObj.getString("email")
+            val creatorEmail = innerObj.getString("email")*/
             val info = gson.fromJson(obj.toString(), ShortLocal::class.java)
             shorts.add(info)
         }
