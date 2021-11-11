@@ -82,8 +82,16 @@ class ShortViewFragment : Fragment() {
         binding?.shortParentLayout?.setOnClickListener {
             if (isPlaying) {
                 playShort()
+                doIsOnPlaying()
+                Handler().postDelayed({
+                    binding?.onPausePlayIndicator?.visibility = View.GONE
+                }, 1000)
             } else {
                 pauseShort()
+                doIsOnPause()
+                Handler().postDelayed({
+                    binding?.onPausePlayIndicator?.visibility = View.GONE
+                }, 1000)
             }
             isPlaying = !isPlaying
         }
@@ -133,20 +141,19 @@ class ShortViewFragment : Fragment() {
 
     }
 
-    private fun showWhenPauseOrPlay() {
-        Handler().postDelayed(Runnable {
-            if (isPlaying) {
-                binding?.apply {
-                    onPausePlayIndicator.visibility = View.VISIBLE
-                    onPausePlayIndicator.setImageResource(R.drawable.pause)
-                }
-            } else {
-                binding?.apply {
-                    onPausePlayIndicator.visibility = View.VISIBLE
-                    onPausePlayIndicator.setImageResource(R.drawable.play)
-                }
-            }
-        }, 1000)
+
+    private fun doIsOnPlaying() {
+        binding?.apply {
+            onPausePlayIndicator.visibility = View.VISIBLE
+            onPausePlayIndicator.setImageResource(R.drawable.pause)
+        }
+    }
+
+    private fun doIsOnPause() {
+        binding?.apply {
+            onPausePlayIndicator.visibility = View.VISIBLE
+            onPausePlayIndicator.setImageResource(R.drawable.play)
+        }
     }
 
     private fun preparePlayer() {
