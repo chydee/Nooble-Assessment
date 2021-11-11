@@ -1,107 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/shortParentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primaryColor">
+        android:background="@color/primaryDarkColor"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless">
 
         <TextView
             android:id="@+id/shortTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="Short Title"
             android:textColor="@color/primaryTextColor"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/creatorDetail"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:text="Short Title" />
 
         <TextView
             android:id="@+id/creatorDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Creator Name"
+            android:layout_marginBottom="16dp"
             android:textColor="@color/colorGray"
-            android:textSize="14sp"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/shortTitle"
-            app:layout_constraintTop_toBottomOf="@+id/shortTitle" />
+            tools:text="Creator Name" />
 
         <TextView
             android:id="@+id/shortDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
             android:text="2021-Nov-03"
             android:textColor="@color/colorGray"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/creatorDetail" />
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/shortPlayingAnimView"
             android:layout_width="350dp"
             android:layout_height="350dp"
             android:layout_margin="16dp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/shortDate"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="spectrum.json"
+            app:lottie_autoPlay="false"
+            app:lottie_fileName="audio_power.json"
             app:lottie_loop="true"
             app:lottie_repeatMode="reverse" />
 
         <TextView
-            android:id="@+id/shortDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="03:07"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/shortPlayingAnimView"
-            app:layout_constraintStart_toStartOf="@+id/shortPlayingAnimView"
-            app:layout_constraintTop_toBottomOf="@+id/shortPlayingAnimView" />
-
-        <TextView
-            android:id="@+id/shortSubTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Short Sub-Title"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="16sp"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="@+id/shortPlayingAnimView"
-            app:layout_constraintStart_toStartOf="@+id/shortPlayingAnimView"
-            app:layout_constraintTop_toBottomOf="@+id/shortDuration" />
-
-        <View
-            android:id="@+id/horizontalDivider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="32dp"
-            android:background="@color/colorGray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shortSubTitle" />
-
-        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="32dp"
-            android:text="There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="32dp"
+            android:text="@string/dummy_text"
             android:textAlignment="center"
             android:textColor="@color/primaryTextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontalDivider" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateOnly="true"
+            app:layout_constraintBottom_toBottomOf="@+id/shortPlayingAnimView"
+            app:layout_constraintEnd_toEndOf="@+id/shortPlayingAnimView"
+            app:layout_constraintStart_toStartOf="@+id/shortPlayingAnimView"
+            app:layout_constraintTop_toTopOf="@+id/shortPlayingAnimView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

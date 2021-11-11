@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
 
     private var binding: ActivityMainBinding? = null
 
+    private var shorts: List<Short>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -58,6 +60,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleSuccess(data: List<Short>) {
+        shorts = data
         pagerAdapter = ShortItemsAdapter(this, data as MutableList<Short>)
         binding?.mainViewPager?.adapter = pagerAdapter
         startPreCaching(data as ArrayList<Short>)
@@ -88,4 +91,8 @@ class MainActivity : AppCompatActivity() {
         WorkManager.getInstance(applicationContext)
             .enqueue(preCachingWork)
     }
+
+    /*override fun onShortEnded(shortItem: Short) {
+        shorts?.indexOf(shortItem)?.let { binding?.mainViewPager?.setCurrentItem(it, true) }
+    }*/
 }

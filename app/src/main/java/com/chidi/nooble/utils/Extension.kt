@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.chidi.nooble.R
 import com.google.android.material.snackbar.Snackbar
+import java.util.concurrent.TimeUnit
 
 fun circularProgress(context: Context): CircularProgressDrawable {
     return CircularProgressDrawable(context).apply {
@@ -36,4 +37,13 @@ fun View.showMessage(message: Message) {
     else
         snackbar.setBackgroundTint(ContextCompat.getColor(this.context, R.color.teal_200))
     snackbar.show()
+}
+
+fun Long.toTimeMinsSecs(): String {
+    val milliseconds: Long = this
+
+    val minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+    val seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds)
+
+    return "$minutes:$seconds"
 }
