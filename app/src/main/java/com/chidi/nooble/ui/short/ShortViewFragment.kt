@@ -15,9 +15,12 @@ import androidx.fragment.app.activityViewModels
 import com.chidi.nooble.App
 import com.chidi.nooble.R
 import com.chidi.nooble.databinding.FragmentShortViewBinding
+import com.chidi.nooble.model.PlaybackSpeed
 import com.chidi.nooble.model.Short
+import com.chidi.nooble.model.ShortPlayback
+import com.chidi.nooble.model.speeds
 import com.chidi.nooble.ui.model.MainViewModel
-import com.chidi.nooble.utils.AppConstants
+import com.chidi.nooble.utils.*
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.C.USAGE_MEDIA
 import com.google.android.exoplayer2.ExoPlayerFactory
@@ -29,10 +32,10 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 
-
 class ShortViewFragment : Fragment() {
 
-    var isPlaying = false
+    private var isPlaying = false
+    private var isLike = false
 
     private var shortUrl: String? = null
     private var shortDataModel: Short? = null
@@ -71,6 +74,15 @@ class ShortViewFragment : Fragment() {
         shortDataModel = arguments?.getParcelable(AppConstants.KEY_SHORT_DATA)
         initData()
 
+
+        var count = 0
+        binding?.textPlayBackSpeed?.setOnClickListener {
+            count++
+            if (count >= speeds.size) {
+                count = 0
+            }
+            setPlaybackSpeedText(speeds[count])
+        }
     }
 
     private fun initData() {
@@ -85,7 +97,7 @@ class ShortViewFragment : Fragment() {
 
         val audioAttributes: AudioAttributes = AudioAttributes.Builder()
             .setUsage(USAGE_MEDIA)
-            .setContentType(C.CONTENT_TYPE_MOVIE)
+            .setContentType(C.CONTENT_TYPE_MUSIC)
             .build()
 
         player?.setAudioAttributes(audioAttributes, /* handleAudioFocus= */ true)
@@ -100,6 +112,21 @@ class ShortViewFragment : Fragment() {
                 doIsOnPause()
             }
             isPlaying = !isPlaying
+        }
+
+        binding?.btnLike?.setOnClickListener {
+            if (isLike) {
+                binding?.btnLike?.apply {
+                    setImageResource(R.drawable.favourite)
+                    showMessage(Message("You unliked this short", false))
+                }
+            } else {
+                binding?.btnLike?.apply {
+                    setImageResource(R.drawable.unfavourite)
+                    showMessage(Message("You liked this short", false))
+                }
+            }
+            isLike = !isLike
         }
 
     }
@@ -135,13 +162,13 @@ class ShortViewFragment : Fragment() {
             super.onLoadingChanged(isLoading)
             if (isLoading) {
                 binding?.apply {
-                    shortPlayingAnimView.visibility = View.INVISIBLE
-                    progressBar.visibility = View.VISIBLE
+                    shortPlayingAnimView.makeInvisible()
+                    progressBar.makeVisible()
                 }
             } else {
                 binding?.apply {
-                    shortPlayingAnimView.visibility = View.VISIBLE
-                    progressBar.visibility = View.GONE
+                    shortPlayingAnimView.makeVisible()
+                    progressBar.makeGone()
                 }
             }
         }
@@ -150,7 +177,7 @@ class ShortViewFragment : Fragment() {
 
     private fun doIsOnPlaying() {
         binding?.apply {
-            onPausePlayIndicator.visibility = View.VISIBLE
+            onPausePlayIndicator.makeVisible()
             onPausePlayIndicator.setImageResource(R.drawable.pause)
         }
         hidePausePlayButton()
@@ -158,7 +185,7 @@ class ShortViewFragment : Fragment() {
 
     private fun doIsOnPause() {
         binding?.apply {
-            onPausePlayIndicator.visibility = View.VISIBLE
+            onPausePlayIndicator.makeVisible()
             onPausePlayIndicator.setImageResource(R.drawable.play)
         }
         hidePausePlayButton()
@@ -170,8 +197,27 @@ class ShortViewFragment : Fragment() {
      */
     private fun hidePausePlayButton() {
         Handler(Looper.getMainLooper()).postDelayed({
-            binding?.onPausePlayIndicator?.visibility = View.GONE
+            binding?.onPausePlayIndicator?.makeGone()
         }, 1000)
+    }
+
+    private fun setPlaybackSpeedText(playback: ShortPlayback) {
+        when (playback.speedType) {
+            PlaybackSpeed.SPEED_NORMAL -> {
+                setupPlayBackSpeedDisplay(playback)
+            }
+            PlaybackSpeed.SPEED_MEDIUM -> {
+                setupPlayBackSpeedDisplay(playback)
+            }
+            PlaybackSpeed.SPEED_HIGH -> {
+                setupPlayBackSpeedDisplay(playback)
+            }
+        }
+    }
+
+    private fun setupPlayBackSpeedDisplay(playback: ShortPlayback) {
+        binding?.textPlayBackSpeed?.text = playback.text
+        player?.playbackSpeed = playback.speed
     }
 
     private fun preparePlayer() {

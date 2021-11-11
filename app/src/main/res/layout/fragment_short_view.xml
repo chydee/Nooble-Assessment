@@ -19,6 +19,7 @@
             android:layout_marginStart="16dp"
             android:textColor="@color/primaryTextColor"
             android:textSize="20sp"
+            android:fontFamily="@font/poppins_bold"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/creatorDetail"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:textColor="@color/colorGray"
+            android:fontFamily="@font/poppins_medium"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/shortTitle"
@@ -39,13 +41,14 @@
             android:id="@+id/shortDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            tools:text="2021-Nov-03"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/poppins"
             android:textColor="@color/colorGray"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/textView"
             app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:text="2021-Nov-03" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/shortPlayingAnimView"
@@ -57,7 +60,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/shortDate"
             app:lottie_autoPlay="false"
-            app:lottie_fileName="audio_power.json"
+            app:lottie_fileName="spectrum.json"
             app:lottie_loop="true"
             app:lottie_repeatMode="reverse" />
 
@@ -66,8 +69,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/dummy_text"
             android:textAlignment="center"
             android:textColor="@color/primaryTextColor"
@@ -79,24 +83,24 @@
             android:id="@+id/btnLike"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/favourite"
             app:layout_constraintBottom_toTopOf="@+id/btnComments"
             app:layout_constraintEnd_toEndOf="@+id/btnComments"
-            app:tint="@color/white" />
+            app:tint="@color/purple_500" />
 
 
         <ImageButton
             android:id="@+id/btnComments"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/comments"
             app:layout_constraintBottom_toTopOf="@+id/btnShareShort"
             app:layout_constraintEnd_toEndOf="@+id/btnShareShort"
-            app:tint="@color/white" />
+            app:tint="@color/teal_200" />
 
         <ImageButton
             android:id="@+id/btnShareShort"
@@ -107,7 +111,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/creatorDetail"
             app:layout_constraintEnd_toEndOf="@+id/shortPlayingAnimView"
             app:layout_constraintTop_toTopOf="@+id/shortTitle"
-            app:tint="@color/white" />
+            app:tint="@color/teal_200" />
 
         <ImageView
             android:id="@+id/onPausePlayIndicator"
@@ -120,6 +124,20 @@
             app:layout_constraintTop_toTopOf="@+id/shortPlayingAnimView"
             app:srcCompat="@drawable/play"
             app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/textPlayBackSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/circle"
+            android:fontFamily="@font/poppins"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:text="@string/default_playback_speed"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/btnLike"
+            app:layout_constraintEnd_toEndOf="@+id/shortPlayingAnimView" />
 
         <ProgressBar
             android:id="@+id/progressBar"
