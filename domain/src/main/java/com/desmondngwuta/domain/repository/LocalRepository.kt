@@ -5,7 +5,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface LocalRepository {
-    fun getData(): List<ShortItemDomain>
+    fun getData(): Single<List<ShortItemDomain>>
 
     fun addShorts(shortItemDomain: ShortItemDomain): Completable
 

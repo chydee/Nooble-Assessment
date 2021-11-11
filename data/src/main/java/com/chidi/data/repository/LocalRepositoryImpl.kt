@@ -6,6 +6,7 @@ import com.desmondngwuta.domain.model.ShortItemDomain
 import com.desmondngwuta.domain.repository.LocalRepository
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.rxkotlin.toObservable
 import javax.inject.Inject
 
 class LocalRepositoryImpl @Inject constructor(
@@ -13,8 +14,8 @@ class LocalRepositoryImpl @Inject constructor(
     private val itemMapper: ShortItemMapper
 ) : LocalRepository {
 
-    override fun getData(): List<ShortItemDomain> {
-        return dataSourceFactory.local().getData().map { item -> itemMapper.mapDataToDomain(item) }
+    override fun getData(): Single<List<ShortItemDomain>> {
+        return dataSourceFactory.local().getData().map { item -> itemMapper.mapDataToDomain(item) }.toObservable().toList()
     }
 
     override fun addShorts(shortItemDomain: ShortItemDomain): Completable {

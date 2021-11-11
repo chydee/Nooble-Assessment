@@ -9,7 +9,7 @@ class ShortItemMapper @Inject constructor() : Mapper<ShortItemData, ShortItemDom
         return with(data) {
             ShortItemDomain(
                 audioPath,
-                creatorDomain = CreatorItemMapper().mapDataToDomain(creatorItemData!!),
+                creatorDomain = null,
                 dateCreated,
                 shortID,
                 title,
@@ -21,7 +21,7 @@ class ShortItemMapper @Inject constructor() : Mapper<ShortItemData, ShortItemDom
         return with(data) {
             ShortItemData(
                 audioPath,
-                creatorItemData = CreatorItemMapper().mapDomainToData(creatorDomain),
+                creatorItemData = null,
                 dateCreated,
                 shortID,
                 title,
