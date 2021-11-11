@@ -3,6 +3,7 @@ package com.chidi.nooble.ui.short
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,9 +18,12 @@ import com.chidi.nooble.databinding.FragmentShortViewBinding
 import com.chidi.nooble.model.Short
 import com.chidi.nooble.ui.model.MainViewModel
 import com.chidi.nooble.utils.AppConstants
+import com.google.android.exoplayer2.C
+import com.google.android.exoplayer2.C.USAGE_MEDIA
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
@@ -36,7 +40,6 @@ class ShortViewFragment : Fragment() {
     private var player: SimpleExoPlayer? = null
     private var cacheDataSourceFactory: CacheDataSourceFactory? = null
     private val simpleCache = App.simpleCache
-    private var toPlayShortPosition: Int = -1
 
 
     companion object {
@@ -67,6 +70,7 @@ class ShortViewFragment : Fragment() {
         }
         shortDataModel = arguments?.getParcelable(AppConstants.KEY_SHORT_DATA)
         initData()
+
     }
 
     private fun initData() {
@@ -79,19 +83,21 @@ class ShortViewFragment : Fragment() {
         shortUrl = shortDataModel?.audioPath
         shortUrl?.let { prepareMedia(it) }
 
+        val audioAttributes: AudioAttributes = AudioAttributes.Builder()
+            .setUsage(USAGE_MEDIA)
+            .setContentType(C.CONTENT_TYPE_MOVIE)
+            .build()
+
+        player?.setAudioAttributes(audioAttributes, /* handleAudioFocus= */ true)
+
+
         binding?.shortParentLayout?.setOnClickListener {
             if (isPlaying) {
                 playShort()
                 doIsOnPlaying()
-                Handler().postDelayed({
-                    binding?.onPausePlayIndicator?.visibility = View.GONE
-                }, 1000)
             } else {
                 pauseShort()
                 doIsOnPause()
-                Handler().postDelayed({
-                    binding?.onPausePlayIndicator?.visibility = View.GONE
-                }, 1000)
             }
             isPlaying = !isPlaying
         }
@@ -109,6 +115,7 @@ class ShortViewFragment : Fragment() {
                 Log.d(ShortViewFragment::class.java.simpleName, "Player.STATE_ENDED")
                 binding?.shortPlayingAnimView?.pauseAnimation()
                 shortDataModel?.let {
+                    releasePlayer()
                     onPlaybackEnded(it)
                 }
                 return
@@ -141,12 +148,12 @@ class ShortViewFragment : Fragment() {
 
     }
 
-
     private fun doIsOnPlaying() {
         binding?.apply {
             onPausePlayIndicator.visibility = View.VISIBLE
             onPausePlayIndicator.setImageResource(R.drawable.pause)
         }
+        hidePausePlayButton()
     }
 
     private fun doIsOnPause() {
@@ -154,6 +161,17 @@ class ShortViewFragment : Fragment() {
             onPausePlayIndicator.visibility = View.VISIBLE
             onPausePlayIndicator.setImageResource(R.drawable.play)
         }
+        hidePausePlayButton()
+    }
+
+    /**
+     *  Removes the play pause imageview from screen after
+     *  1000ms
+     */
+    private fun hidePausePlayButton() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding?.onPausePlayIndicator?.visibility = View.GONE
+        }, 1000)
     }
 
     private fun preparePlayer() {
@@ -178,7 +196,6 @@ class ShortViewFragment : Fragment() {
 
     private fun prepareMedia(linkUrl: String) {
         Log.d(ShortViewFragment::class.java.simpleName, "prepareMedia linkUrl: $linkUrl")
-
         val uri = Uri.parse(linkUrl)
         val mediaSource = ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(uri)
 
@@ -186,8 +203,6 @@ class ShortViewFragment : Fragment() {
         player?.repeatMode = Player.REPEAT_MODE_OFF
         player?.playWhenReady = true
         player?.addListener(playerCallback)
-
-        toPlayShortPosition = -1
     }
 
     private fun playShort() {
@@ -215,11 +230,6 @@ class ShortViewFragment : Fragment() {
         player?.release()
     }
 
-    override fun onPause() {
-        pauseShort()
-        super.onPause()
-    }
-
     override fun onResume() {
         replayShort()
         super.onResume()
@@ -232,6 +242,7 @@ class ShortViewFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        pauseShort()
         binding = null
     }
 }
