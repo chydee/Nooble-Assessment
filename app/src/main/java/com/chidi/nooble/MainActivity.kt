@@ -8,13 +8,17 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.chidi.nooble.databinding.ActivityMainBinding
 import com.chidi.nooble.model.Short
 import com.chidi.nooble.ui.ShortItemsAdapter
 import com.chidi.nooble.ui.model.MainViewModel
+import com.chidi.nooble.utils.AppConstants
 import com.chidi.nooble.utils.Result.Error
 import com.chidi.nooble.utils.Result.Success
+import com.chidi.nooble.work.PreCachingWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -56,6 +60,7 @@ class MainActivity : AppCompatActivity() {
     private fun handleSuccess(data: List<Short>) {
         pagerAdapter = ShortItemsAdapter(this, data as MutableList<Short>)
         binding?.mainViewPager?.adapter = pagerAdapter
+        startPreCaching(data as ArrayList<Short>)
         Log.d("MainActivity", data.toString())
     }
 
@@ -72,7 +77,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getColorFromRes(barColor: Int): Int {
-        return ContextCompat.getColor(this, barColor)
+    private fun startPreCaching(dataList: ArrayList<Short>) {
+        val urlList = arrayOfNulls<String>(dataList.size)
+        dataList.mapIndexed { index, shortModel ->
+            urlList[index] = shortModel.audioPath
+        }
+        val inputData = Data.Builder().putStringArray(AppConstants.KEY_SHORTS_LIST_DATA, urlList).build()
+        val preCachingWork = OneTimeWorkRequestBuilder<PreCachingWorker>().setInputData(inputData)
+            .build()
+        WorkManager.getInstance(applicationContext)
+            .enqueue(preCachingWork)
     }
 }

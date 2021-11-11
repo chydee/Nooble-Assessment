@@ -15,16 +15,15 @@ import com.google.android.exoplayer2.upstream.cache.Cache
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheUtil
 import com.google.android.exoplayer2.util.Util
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
 
 private const val TAG = "PreCachingService"
 
-class PreCachingService(appContext: Context, params: WorkerParameters) :
+class PreCachingWorker(appContext: Context, params: WorkerParameters) :
     CoroutineWorker(appContext, params) {
-    private var cachingJob: Deferred<Unit?>? = null
+
     private var cacheDataSourceFactory: CacheDataSourceFactory? = null
     private val simpleCache = App.simpleCache
 
