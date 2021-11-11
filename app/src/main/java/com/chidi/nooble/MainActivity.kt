@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     private var shorts: List<Short> = listOf()
 
-    private var currentPlaying: Int = 0
+    private var currentPlaying: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,15 +56,19 @@ class MainActivity : AppCompatActivity() {
         viewModel.selectedItem.observe(this, { item ->
             if (item != null) {
                 currentPlaying = if (currentPlaying == shorts.size) {
-                    0
+                    -1
                 } else {
                     shorts.indexOf(item)
                 }
-                Log.d("MainActivity", "current page is: $currentPlaying")
+                Log.d("MainActivity", "current playing index: $currentPlaying")
                 currentPlaying++
-                Log.d("MainActivity", "next page is: $currentPlaying")
+                Log.d("MainActivity", "next short index: $currentPlaying")
                 binding?.mainViewPager?.setCurrentItem(currentPlaying, true)
             }
+        })
+
+        viewModel.addShortMessage.observe(this, {
+
         })
 
     }
@@ -76,14 +80,22 @@ class MainActivity : AppCompatActivity() {
             Toast.LENGTH_LONG
         )
             .show()
+        error.printStackTrace()
     }
 
     private fun handleSuccess(data: List<Short>) {
         shorts = data
+        saveShortToDB(data)
         pagerAdapter = ShortItemsAdapter(this, data as MutableList<Short>)
         binding?.mainViewPager?.adapter = pagerAdapter
         startPreCaching(data as ArrayList<Short>)
         Log.d("MainActivity", data.toString())
+    }
+
+    private fun saveShortToDB(data: List<Short>) {
+        for (short in data) {
+            viewModel.addShortsToDatabase(short)
+        }
     }
 
     private fun setupContentWindow() {
