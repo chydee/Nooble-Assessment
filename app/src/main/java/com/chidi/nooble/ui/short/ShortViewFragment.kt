@@ -114,8 +114,8 @@ class ShortViewFragment : Fragment() {
             if (playbackState == Player.STATE_ENDED) {
                 Log.d(ShortViewFragment::class.java.simpleName, "Player.STATE_ENDED")
                 binding?.shortPlayingAnimView?.pauseAnimation()
+                releasePlayer()
                 shortDataModel?.let {
-                    releasePlayer()
                     onPlaybackEnded(it)
                 }
                 return
