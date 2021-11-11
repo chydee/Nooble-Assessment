@@ -29,7 +29,7 @@ fun View.showMessage(message: Message) {
     if (message.caution)
         snackbar.setBackgroundTint(ContextCompat.getColor(this.context, R.color.purple_200))
     else
-        snackbar.setBackgroundTint(ContextCompat.getColor(this.context, R.color.teal_200))
+        snackbar.setBackgroundTint(ContextCompat.getColor(this.context, R.color.primaryLightColor))
     snackbar.show()
 }
 

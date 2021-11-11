@@ -1,4 +1,4 @@
-package com.chidi.nooble
+package com.chidi.nooble.ui
 
 import android.graphics.Color
 import android.os.Bundle
@@ -13,7 +13,6 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.chidi.nooble.databinding.ActivityMainBinding
 import com.chidi.nooble.model.Short
-import com.chidi.nooble.ui.ShortItemsAdapter
 import com.chidi.nooble.ui.model.MainViewModel
 import com.chidi.nooble.utils.AppConstants
 import com.chidi.nooble.utils.DepthPageTransformer
