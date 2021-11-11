@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="2021-Nov-03"
+            tools:text="2021-Nov-03"
             android:textColor="@color/colorGray"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/textView"
@@ -75,6 +75,50 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+            android:id="@+id/btnLike"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginBottom="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/favourite"
+            app:layout_constraintBottom_toTopOf="@+id/btnComments"
+            app:layout_constraintEnd_toEndOf="@+id/btnComments"
+            app:tint="@color/white" />
+
+
+        <ImageButton
+            android:id="@+id/btnComments"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginBottom="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/comments"
+            app:layout_constraintBottom_toTopOf="@+id/btnShareShort"
+            app:layout_constraintEnd_toEndOf="@+id/btnShareShort"
+            app:tint="@color/white" />
+
+        <ImageButton
+            android:id="@+id/btnShareShort"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/share"
+            app:layout_constraintBottom_toBottomOf="@+id/creatorDetail"
+            app:layout_constraintEnd_toEndOf="@+id/shortPlayingAnimView"
+            app:layout_constraintTop_toTopOf="@+id/shortTitle"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/onPausePlayIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/shortPlayingAnimView"
+            app:layout_constraintEnd_toEndOf="@+id/shortPlayingAnimView"
+            app:layout_constraintStart_toStartOf="@+id/shortPlayingAnimView"
+            app:layout_constraintTop_toTopOf="@+id/shortPlayingAnimView"
+            app:srcCompat="@drawable/play"
+            app:tint="@color/white" />
 
         <ProgressBar
             android:id="@+id/progressBar"
